@@ -460,3 +460,4 @@ chore: Otras tareas que no encajan en las categorías anteriores (actualización
  
  El mensaje detallado puede extenderse a múltiples líneas
 
+ 
