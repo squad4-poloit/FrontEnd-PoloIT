@@ -6,9 +6,30 @@ FrontEnd-PoloIT es un sistema de gestión de inscripciones para cursos, desarrol
 ## Instalación
 
 1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/MatiasPinho/FrontEnd-PoloIT
+ ``` bash
+   git clone https://github.com/MatiasPinho/FrontEnd-PoloIT 
+  ```
+  2. Instala las depedencias:
+``` bash
+cd FrontEnd-PoloIT
+npm install
+```
 
+  3. Ejecuta el proyecto en modo de desarollo:
+``` bash
+ Npm run dev
+```
+Este comando ejecutará el proyecto en modo de desarrollo, generalmente en http://localhost:3000, y activará características como recarga en caliente y depuración.
+
+ 4. Crea la build:
+``` bash
+ Npm run build
+```
+
+ 4. Ejecuta el Proyecto en Modo Producción (opcional)
+``` bash
+ Npm run start
+```
 # Atomic Design en Nuestro Proyecto
 
 **Atomic Design** organiza los componentes en una estructura jerárquica y modular.
@@ -460,4 +481,75 @@ chore: Otras tareas que no encajan en las categorías anteriores (actualización
  
  El mensaje detallado puede extenderse a múltiples líneas
 
- 
+ # Como utilizar Biome
+
+ Biome es una herramienta para la configuración de linters y formateadores. A continuación una breve explicacion de como la implementamos en nuestro proyecto
+
+ # Comandos
+
+ ``` JSON
+"biome:format:check": "@biome format ./src"
+ ```
+
+ Descripción: Ejecuta el formateador de Biome para verificar el formato del código en la carpeta ./src.
+
+Uso: Revisa si el código en ./src cumple con las reglas de formato definidas en tu configuración, pero no realiza cambios.
+
+``` JSON
+"biome:format:write": "@biome format --write ./src"
+ ```
+
+ Descripción: Ejecuta el formateador de Biome para formatear el código en la carpeta ./src.
+
+Uso: 
+Revisa y corrige automáticamente el formato del código en ./src según las reglas definidas.
+Realiza cambios en los archivos si es necesario.
+
+``` JSON
+"biome:lint:check": "npx @biomejs/biome lint ./src"
+ ```
+
+Descripción: Ejecuta el linter de Biome para verificar el código en la carpeta ./src.
+
+Uso: Revisa el código en ./src en busca de errores y advertencias según las reglas definidas en la configuración de linter, pero no realiza cambios.
+
+``` JSON
+"biome:lint:write": "npx @biomejs/biome check --write ./src"
+ ```
+
+Descripción: Ejecuta el linter de Biome para revisar y corregir el código en la carpeta ./src.
+
+Uso: Revisa el código en ./src y aplica correcciones automáticas a los problemas detectados según las reglas definidas en la configuración del linter.
+
+# Subir Cambios
+
+ #### Obten la ultima version
+
+ ``` bash
+git pull origin dev
+ ```
+
+ #### Crea la nueva version
+
+  Esto mantiene la rama dev limpia y permite realizar revisiones y pruebas sin afectar la base de código principal de desarollo.
+
+   ``` bash
+git switch -c feature/nueva-funcionalidad
+ ```
+
+ #### Realiza Cambios y Realiza Commits
+
+ Haz los cambios necesarios en tu código y realiza commits con mensajes claros y descriptivos. Sigue el formato de mensajes de commit explicando anteriormente para mantener un historial organizado.
+
+   ``` bash
+git archivo a subir o en su defecto todo( . )
+git commit -m "Descripción clara y concisa del cambio"
+ ```
+
+ #### Actualiza tu Rama con la Última Versión de dev
+
+ Antes de subir tus cambios, asegúrate de que tu rama esté actualizada con la última versión de main para evitar conflictos:
+  ``` bash
+ git fetch origin
+ git rebase origin/main
+ ```
