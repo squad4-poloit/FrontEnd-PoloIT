@@ -542,14 +542,25 @@ git switch -c feature/nueva-funcionalidad
  Haz los cambios necesarios en tu código y realiza commits con mensajes claros y descriptivos. Sigue el formato de mensajes de commit explicando anteriormente para mantener un historial organizado.
 
    ``` bash
-git archivo a subir o en su defecto todo( . )
+git add archivo a subir o en su defecto todo( . )
 git commit -m "Descripción clara y concisa del cambio"
  ```
 
  #### Actualiza tu Rama con la Última Versión de dev
 
- Antes de subir tus cambios, asegúrate de que tu rama esté actualizada con la última versión de main para evitar conflictos:
+ Antes de subir tus cambios, asegúrate de que tu rama esté actualizada con la última versión de dev para evitar conflictos:
   ``` bash
  git fetch origin
- git rebase origin/main
+ git rebase origin/dev
  ```
+
+#### Sube los Cambios a GitHub
+
+Sube tu rama y cambios al repositorio remoto:
+
+  ``` bash
+git push origin nombre-de-tu-rama
+   ```
+
+   #### Cosas a definir
+   Subir a produccion
