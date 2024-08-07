@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .  # Usa el Dockerfile en la raíz del proyecto
+    ports:
+      - "80:80"  # Mapea el puerto 80 del contenedor al puerto 80 del host
