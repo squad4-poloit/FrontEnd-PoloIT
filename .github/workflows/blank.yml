@@ -26,11 +26,39 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Verify package.json exists
-        run: ls -la
-
       - name: Install dependencies
         run: npm install
 
-      - name: Run Biome
-        run: npx biome lint
+      - name: Run Biome format check
+        run: npm run biome:format:check
+
+      - name: Run Biome lint check
+        run: npm run biome:lint:check
+
+      - name: Auto-fix issues
+        run: |
+          npm run biome:format:write
+          npm run biome:lint:write
+        continue-on-error: false
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --exit-code || echo "Changes detected" > result.txt
+        continue-on-error: true
+
+      - name: Commit auto-fixes
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: 'github-actions'
+          author_email: 'github-actions@github.com'
+          message: 'fix: auto-fix lint and formatting issues'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if issues remain
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          cat result.txt
+          exit 1
