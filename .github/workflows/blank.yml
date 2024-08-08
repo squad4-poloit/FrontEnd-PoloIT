@@ -1,6 +1,11 @@
 name: Biome Linting
 
 on:
+  push:
+    branches:
+      - dev
+      - qa
+      - main
   pull_request:
     branches:
       - dev
@@ -20,6 +25,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+
+      - name: Verify package.json exists
+        run: ls -la
 
       - name: Install dependencies
         run: npm install
