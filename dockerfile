@@ -19,7 +19,7 @@ FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expone el puerto en el que Nginx estará escuchando
-EXPOSE 81
+EXPOSE 80
 
 # Comando para ejecutar Nginx
 CMD ["nginx", "-g", "daemon off;"]
