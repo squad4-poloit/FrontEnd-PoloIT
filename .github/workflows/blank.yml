@@ -30,15 +30,15 @@ jobs:
         run: npm install
 
       - name: Run Biome format check
-        run: npm run biome:format:check
+        run: npx @biomejs/biome format ./src
 
       - name: Run Biome lint check
-        run: npm run biome:lint:check
+        run: npx @biomejs/biome lint ./src
 
       - name: Auto-fix issues
         run: |
-          npm run biome:format:write
-          npm run biome:lint:write
+          npx @biomejs/biome format --write ./src
+          npx @biomejs/biome lint --write ./src
         continue-on-error: false
 
       - name: Check for changes
