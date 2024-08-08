@@ -1,0 +1,20 @@
+.hidden--none{
+    display: none;
+}
+
+.hidden--opacity{
+    opacity: 0;
+}
+
+.visible--opacity{
+    opacity: 1;
+}
+
+.visible--display{
+    display: block;
+}
+
+[role='button'] {
+    cursor: pointer;
+  }
+
