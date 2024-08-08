@@ -6,7 +6,6 @@ function App() {
 			<h1>testeo</h1>
 			<button type='button'> Hola </button>
 			<button type='button'> Holas </button>
-			<a href='./' target='_blank'></a>
 		</>
 	);
 }
