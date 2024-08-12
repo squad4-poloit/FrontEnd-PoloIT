@@ -1,0 +1,70 @@
+name: Biome Linting and Reviewdog
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - qa
+      - main
+
+jobs:
+  lint:
+    name: Run Biome Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Biome format check
+        run: npx @biomejs/biome format ./src
+
+      - name: Run Biome lint check
+        run: npx @biomejs/biome lint ./src
+
+      - name: Auto-fix issues
+        run: |
+          npx @biomejs/biome format --write ./src
+          npx @biomejs/biome lint --write ./src
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --exit-code || echo "changed=true" >> $GITHUB_ENV
+
+      - name: Commit auto-fixes
+        if: env.changed == 'true'
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: 'github-actions'
+          author_email: 'github-actions@github.com'
+          message: 'fix: auto-fix lint and formatting issues'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if issues remain
+        if: env.changed == 'true'
+        run: |
+          echo "Linting and formatting issues remain."
+          exit 1
+
+  reviewdog:
+    name: Reviewdog with Biome
+    runs-on: ubuntu-latest
+    needs: lint
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mongolyy/reviewdog-action-biome@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
