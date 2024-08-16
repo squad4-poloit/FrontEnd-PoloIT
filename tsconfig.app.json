@@ -27,13 +27,14 @@
 			"@molecules/*": ["components/molecules/*"],
 			"@organisms/*": ["components/organisms/*"],
 			"@templates/*": ["components/templates/*"],
-			"@pages/*": ["components/pages/*"],
+			"@pages/*": ["pages/*"],
 			"@utils/*": ["utils/*"],
 			"@types/*": ["types/*"],
 			"@services/*": ["services/*"],
 			"@hooks/*": ["hooks/*"],
 			"@context/*": ["context/*"],
-			"@styles/*": ["styles/*"]
+			"@styles/*": ["styles/*"],
+			"@root/*": ["root/*"]
 		}
 	},
 	"include": ["src"]
