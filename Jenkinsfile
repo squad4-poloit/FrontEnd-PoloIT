@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'ubuntu-latest' }
+    agent any
 
     stages {
         stage('Checkout code') {
@@ -17,7 +17,7 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                sh 'npm install'
+                sh 'npm ci'
             }
         }
 
@@ -65,6 +65,7 @@ pipeline {
                     git config user.email "jenkins@domain.com"
                     git add .
                     git commit -m "fix: auto-fix lint and formatting issues"
+                    git push origin dev
                 '''
             }
         }
