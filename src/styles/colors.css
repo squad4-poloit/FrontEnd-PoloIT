@@ -4,33 +4,29 @@ No son los definidos.
 */
 
 :root {
-    /* Primary Colors */
-    --color-primary: #007bff;      
-    --color-secondary: #6c757d;    
-    --color-tertiary: #28a745;     
-  
-    /* Background Colors */
-    --color-background-light: #f8f9fa;
-    --color-background-dark: #343a40;  
-  
-    /* Text Colors  */
-    --color-text-primary: #212529;     
-    --color-text-secondary: #6c757d;   
-    --color-text-muted: #adb5bd;      
-  
-    /* Status Colors */
-    --color-success: #28a745;          
-    --color-error: #dc3545;            
-    --color-warning: #ffc107;          
-    --color-info: #17a2b8;             
-  
-    /* Color Variants */
-    --color-blue-100: #cce5ff;         
-    --color-blue-500: #007bff;         
-    --color-red-100: #f8d7da;          
-    --color-red-500: #dc3545;          
-  }
-  
-  h1{
-    color: var(--color-primary);
-  }
+  /* Primary Colors */
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-tertiary: #28a745;
+
+  /* Background Colors */
+  --color-background-light: #f8f9fa;
+  --color-background-dark: #343a40;
+
+  /* Text Colors  */
+  --color-text-primary: #212529;
+  --color-text-secondary: #6c757d;
+  --color-text-muted: #adb5bd;
+
+  /* Status Colors */
+  --color-success: #28a745;
+  --color-error: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+
+  /* Color Variants */
+  --color-blue-100: #cce5ff;
+  --color-blue-500: #007bff;
+  --color-red-100: #f8d7da;
+  --color-red-500: #dc3545;
+}
