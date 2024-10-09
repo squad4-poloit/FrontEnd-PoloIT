@@ -1,0 +1,34 @@
+.header {
+  background-color: #f6f9fc;
+  height: 70px;
+  position: fixed;
+  width: 100vw;
+  color: #0a2540;
+  font-weight: 600;
+}
+
+.header__nav {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  max-width: 87rem;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.header__nav__left {
+  display: flex;
+  column-gap: 36px;
+}
+
+.header__nav__title {
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.header__nav__list {
+  display: flex;
+  column-gap: 36px;
+}

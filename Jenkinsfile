@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout code') {
             steps {
-                git branch: 'dev', url: 'https://github.com/squad4-poloit/FrontEnd-PoloIT'
+                git branch: 'main', url: 'https://github.com/squad4-poloit/FrontEnd-PoloIT'
             }
         }
 

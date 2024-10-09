@@ -1,20 +1,29 @@
-.hidden--none{
-    display: none;
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+.hidden--none {
+  display: none;
 }
 
-.hidden--opacity{
-    opacity: 0;
+.hidden--opacity {
+  opacity: 0;
 }
 
-.visible--opacity{
-    opacity: 1;
+.visible--opacity {
+  opacity: 1;
 }
 
-.visible--display{
-    display: block;
+.visible--display {
+  display: block;
 }
 
-[role='button'] {
-    cursor: pointer;
-  }
+[role="button"] {
+  cursor: pointer;
+}
 
+.strong {
+  color: #6c63ff;
+}
+
+* {
+  font-family: "Inter", sans-serif;
+}
