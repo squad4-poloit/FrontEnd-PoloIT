@@ -1,8 +1,7 @@
-import Icon from "@assets/icons/icon"; // Ajusta según la estructura de tu proyecto
+import Icon from "@assets/icons/icon";
 import { useState } from "react";
 import "./Dashboard.css";
 
-// Definimos las interfaces para los tipos de datos
 interface User {
   id: number;
   first_name: string;
@@ -27,7 +26,7 @@ interface Mentorship {
   description: string;
   student_spots: number;
   status: string;
-  tags: string[];
+  tags: string;
   start_date: string;
 }
 
@@ -45,11 +44,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
   rol,
   users,
   mentorships,
-
   activeSection,
   handleSectionChange,
 }) => {
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para la búsqueda
+  const [searchTerm, setSearchTerm] = useState("");
 
   const sectionPermissions = {
     GESTOR: ["MENTORES", "EGRESADOS", "MENTORIAS", "ONGS", "CONSULTORAS"],
@@ -59,7 +57,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const availableSections = sectionPermissions[rol] || [];
 
-  // Filtrar según el término de búsqueda
   const filteredMentorships = mentorships.filter((mentorship) =>
     mentorship.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -91,7 +88,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 <td className="table-data">{mentorship.description}</td>
                 <td className="table-data">{mentorship.student_spots}</td>
                 <td className="table-data">{mentorship.status}</td>
-                <td className="table-data">{mentorship.tags.join(", ")}</td>
+                <td className="table-data">
+                  {mentorship.tags.split(", ").join(", ")}
+                </td>
                 <td className="table-data">
                   {new Date(mentorship.start_date).toLocaleDateString()}
                 </td>
@@ -160,7 +159,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <h2 className="dashboard__manager__select__title">Gestionar</h2>
             <ul className="dashboard__manager__select__list">
               {availableSections.map((section) => (
-                // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
                 <li
                   key={section}
                   className={`dashboard__manager__select__item ${
@@ -189,7 +187,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          {renderTable()} {/* Renderiza la tabla correspondiente */}
+          {renderTable()}
         </header>
       </div>
     </section>
