@@ -5,4 +5,4 @@ services:
     build:
       context: .  # Usa el Dockerfile en la raíz del proyecto
     ports:
-      - "8080:80"  # Mapea el puerto 80 del contenedor al puerto 80 del host
+      - "8080:3232"  # Mapea el puerto 80 del contenedor al puerto 80 del host
