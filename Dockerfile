@@ -19,4 +19,4 @@ WORKDIR /home/app
 # Copia los archivos construidos al directorio de Nginx
 COPY --from=builder /home/node/app ./
 
-CMD ["npm", "run", "start", "--", " --", "host"]
+CMD ["npm", "run", "start", "--", "--", "host"]
