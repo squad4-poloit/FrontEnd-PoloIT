@@ -40,7 +40,7 @@ export const Home = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [mentorships, setMentorships] = useState<Mentorship[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<any>(true);
   const [error, setError] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string>("EGRESADOS");
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
@@ -97,13 +97,13 @@ export const Home = () => {
         const token = document.cookie
           .split("; ")
           .find((row) => row.startsWith("token="))
-          ?.split("=")[1]; // Obtén el token de la cookie
+          ?.split("=")[1];
 
         const responseMentorships = await fetch(
           "http://localhost:3030/api/mentorships",
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Envía el token aquí
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -134,13 +134,13 @@ export const Home = () => {
         const token = document.cookie
           .split("; ")
           .find((row) => row.startsWith("token="))
-          ?.split("=")[1]; // Obtén el token de la cookie
+          ?.split("=")[1]; 
 
         const responseFilteredUsers = await fetch(
           `http://localhost:3030/api/users?role=${roleMap[activeSection]}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Envía el token aquí
+              Authorization: `Bearer ${token}`
             },
           }
         );
@@ -155,7 +155,7 @@ export const Home = () => {
     };
 
     fetchFilteredUsers();
-  }, [activeSection]); // Dependencia en activeSection
+  }, [activeSection]);
 
   const handleSectionChange = (section: string) => {
     setActiveSection(section);
@@ -168,13 +168,13 @@ export const Home = () => {
     <>
       <Hero currentUser={currentUser} />
       <Dashboard
-        rol={currentUser?.role.name || ""}
-        users={filteredUsers}
-        mentorships={mentorships}
+        rol={currentUser?.role?.name as any}
+        users={filteredUsers as any}
+        mentorships={mentorships as any}
         error={error}
         activeSection={activeSection}
-        handleSectionChange={handleSectionChange}
-      />
+        handleSectionChange={handleSectionChange} loading={false}/>
+
     </>
   );
 };

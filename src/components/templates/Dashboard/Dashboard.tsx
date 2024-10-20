@@ -104,7 +104,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   };
 
   const handleAssignmentFormChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: any
   ) => {
     const { name, value } = e.target;
     setAssignmentData({ ...assignmentData, [name]: value });
