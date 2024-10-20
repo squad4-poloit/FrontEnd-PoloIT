@@ -1,12 +1,12 @@
-import Icon from "@assets/icons/icon"; // Ajusta según la estructura de tu proyecto
-import { Dashboard } from "@components/templates/Dashboard/Dashboard"; // Asegúrate de que la ruta sea correcta
+import Icon from "@assets/icons/icon";
+import { Dashboard } from "@components/templates/Dashboard/Dashboard";
 import { Hero } from "@components/templates/Hero/Hero";
 import { useEffect, useState } from "react";
 
 // Tipos de datos para los estados
 interface User {
   id: string;
-  first_name: string; // Ajusta los campos según el esquema de tu API
+  first_name: string;
   last_name: string;
   dni: string;
   email: string;
@@ -37,64 +37,116 @@ interface FetchResponse<T> {
 }
 
 export const Home = () => {
-  const [users, setUsers] = useState<User[]>([]); // Lista de todos los usuarios
-  const [mentorships, setMentorships] = useState<Mentorship[]>([]); // Lista de mentorías
-  const [currentUser, setCurrentUser] = useState<User | null>(null); // Usuario actual
-  const [loading, setLoading] = useState<boolean>(true); // Estado de carga
-  const [error, setError] = useState<string | null>(null); // Estado de error
-  const [activeSection, setActiveSection] = useState<string>("EGRESADOS"); // Sección activa por defecto
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]); // Usuarios filtrados
+  const [users, setUsers] = useState<User[]>([]);
+  const [mentorships, setMentorships] = useState<Mentorship[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string>("EGRESADOS");
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
-  const currentUserId = "b2517f82-8a58-4791-82d2-14965386933f"; // ID del usuario actual
+  // Credenciales para el inicio de sesión (puedes cambiar estos valores)
+  const loginCredentials = {
+    email: "nuevo_gestor@empresa.com", // Reemplaza con el email real
+    password: "tu_contraseña_segura", // Reemplaza con la contraseña real
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const loginUser = async () => {
       try {
-        setLoading(true);
+        const response = await fetch("http://localhost:3030/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginCredentials),
+        });
 
-        // Llamada para obtener el usuario actual por ID
-        const responseCurrentUser = await fetch(
-          `http://localhost:3030/api/users/${currentUserId}`
-        );
-        const userData: FetchResponse<User> = await responseCurrentUser.json();
-        setCurrentUser(userData.data); // Actualiza el usuario actual
+        const result = await response.json();
 
-        // Llamada para obtener todas las mentorías
+        if (response.ok) {
+          // Almacena el token en una cookie
+          document.cookie = `token=${result.token}; path=/`;
+
+          // Establece el usuario actual con el rol
+          setCurrentUser({
+            id: result.user.id,
+            first_name: result.user.first_name,
+            last_name: result.user.last_name,
+            dni: result.user.dni,
+            email: result.user.email,
+            role: { name: result.user.role.name },
+            phone: result.user.phone,
+            birth_date: result.user.birth_date,
+            linkedIn: result.user.linkedIn,
+            institution: result.user.institution,
+          });
+
+          // Carga las mentorías
+          await fetchMentorships();
+        } else {
+          setError("Error de inicio de sesión");
+        }
+      } catch (err) {
+        setError("Error al iniciar sesión");
+      }
+    };
+
+    const fetchMentorships = async () => {
+      try {
+        const token = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("token="))
+          ?.split("=")[1]; // Obtén el token de la cookie
+
         const responseMentorships = await fetch(
-          "http://localhost:3030/api/mentorships"
+          "http://localhost:3030/api/mentorships",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Envía el token aquí
+            },
+          }
         );
         const mentorshipsData: FetchResponse<Mentorship[]> =
           await responseMentorships.json();
-        setMentorships(mentorshipsData.data); // Actualiza la lista de mentorías
+        setMentorships(mentorshipsData.data);
       } catch (err) {
-        setError("Error al cargar los datos");
+        setError("Error al cargar las mentorías");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, [currentUserId]);
+    loginUser();
+  }, []);
 
   useEffect(() => {
     const fetchFilteredUsers = async () => {
       try {
         setLoading(true);
 
-        // Mapa de secciones a roles en singular
         const roleMap: { [key: string]: string } = {
           MENTORES: "MENTOR",
           EGRESADOS: "EGRESADO",
-          MENTORIAS: "MENTORIA", // Si es necesario
-          // Puedes agregar otros roles aquí si los tienes
+          MENTORIAS: "MENTORIA",
         };
 
+        const token = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("token="))
+          ?.split("=")[1]; // Obtén el token de la cookie
+
         const responseFilteredUsers = await fetch(
-          `http://localhost:3030/api/users?role=${roleMap[activeSection]}`
+          `http://localhost:3030/api/users?role=${roleMap[activeSection]}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Envía el token aquí
+            },
+          }
         );
         const filteredUsersData: FetchResponse<{ users: User[] }> =
           await responseFilteredUsers.json();
-        setFilteredUsers(filteredUsersData.data.users); // Actualiza la lista de usuarios filtrados
+        setFilteredUsers(filteredUsersData.data.users);
       } catch (err) {
         setError("Error al cargar los datos");
       } finally {
@@ -106,23 +158,22 @@ export const Home = () => {
   }, [activeSection]); // Dependencia en activeSection
 
   const handleSectionChange = (section: string) => {
-    setActiveSection(section); // Cambia la sección activa
+    setActiveSection(section);
   };
 
-  if (loading) return <p>Cargando...</p>; // Muestra cargando si está en estado de carga
-  if (error) return <p>Error: {error}</p>; // Muestra error si ocurre uno
+  if (loading) return <p>Cargando...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <>
-      <Hero currentUser={currentUser} /> {/* Pasa el usuario actual a Hero */}
+      <Hero currentUser={currentUser} />
       <Dashboard
-        rol={currentUser?.role.name || ""} // Obtiene el rol del usuario actual
-        users={filteredUsers} // Pasa la lista de usuarios filtrados
-        mentorships={mentorships} // Pasa la lista de mentorías
-        loading={loading} // Estado de carga
-        error={error} // Estado de error
-        activeSection={activeSection} // Sección activa
-        handleSectionChange={handleSectionChange} // Función para cambiar la sección
+        rol={currentUser?.role.name || ""}
+        users={filteredUsers}
+        mentorships={mentorships}
+        error={error}
+        activeSection={activeSection}
+        handleSectionChange={handleSectionChange}
       />
     </>
   );
