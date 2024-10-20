@@ -1,19 +1,20 @@
 /*agregar segun sea necesario */
 
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: var(--font-family);
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
 }
 
-a{
-    text-decoration: none;
-    color: inherit;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-ul,ol{
-    list-style: none;
+ul,
+ol {
+  list-style: none;
 }
 
 input,
@@ -26,13 +27,16 @@ button {
 }
 
 button {
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 
 img {
-    max-width: 100%;
-    height: auto;
-  }
+  max-width: 100%;
+  height: auto;
+}
+
+main {
+  padding-top: 70px;
+}
