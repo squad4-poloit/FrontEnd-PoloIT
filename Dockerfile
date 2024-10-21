@@ -2,7 +2,7 @@
 FROM node:20.16 AS builder
 
 # Define el directorio de trabajo
-WORKDIR /home/node/app
+WORKDIR /app
 
 # Copia el archivo de dependencias e instala
 COPY package*.json ./
@@ -12,11 +12,10 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-FROM node:20.16
+FROM nginx:1.25.4-alpine3.18
 
-WORKDIR /home/app
+COPY ./nignx.conf /etc/nginx/conf.d/default.conf
 
-# Copia los archivos construidos al directorio de Nginx
-COPY --from=builder /home/node/app ./
+COPY --from=builder /app/dist /var/www/html/
 
-CMD ["npm", "run", "host"]
+CMD ["nginx","-g","daemon off;"]
