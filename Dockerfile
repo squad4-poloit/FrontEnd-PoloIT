@@ -1,22 +1,13 @@
-# Usa una imagen base de Node para construir la aplicación
 FROM node:20.16 AS builder
-
-# Define el directorio de trabajo
-WORKDIR /home/node/app
-
-# Copia el archivo de dependencias e instala
+WORKDIR /app
 COPY package*.json ./
-RUN npm install
-
-# Copia el código fuente y construye la aplicación
+RUN yarn install
+ENV PATH /app/node_modules/.bin:$PATH
 COPY . .
-RUN npm run build
+RUN yarn run build
 
-FROM node:20.16
-
-WORKDIR /home/app
-
-# Copia los archivos construidos al directorio de Nginx
-COPY --from=builder /home/node/app ./
-
-CMD ["npm", "run", "start"]
+FROM nginx:1.25.4-alpine3.18
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /var/www/html/
+EXPOSE 3232
+ENTRYPOINT ["nginx","-g","daemon off;"]
