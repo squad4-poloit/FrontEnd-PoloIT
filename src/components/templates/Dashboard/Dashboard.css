@@ -358,3 +358,29 @@
 .assignment-form button[type="submit"]:hover {
   background-color: #5145d6; /* Color más oscuro para el hover */
 }
+
+.notification-area {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+.notification {
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  color: white;
+  font-weight: bold;
+}
+
+.notification.success {
+  background-color: #4caf50; /* Verde para éxito */
+}
+
+.notification.error {
+  background-color: #f44336; /* Rojo para error */
+}

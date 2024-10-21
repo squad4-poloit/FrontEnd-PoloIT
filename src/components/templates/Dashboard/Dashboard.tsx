@@ -33,7 +33,8 @@ interface DashboardProps {
   mentorships: Mentorship[];
   loading: boolean;
   error: string | null;
-  activeSection: string;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  activeSection: any;
   handleSectionChange: (section: string) => void;
 }
 
@@ -46,6 +47,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [ismentorShipClicked, setIsMentorShipClicked] = useState(false);
+  const [notification, setNotification] = useState<
+    | {
+        message: string;
+        type: "success" | "error";
+      }
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    | any
+  >(null);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -61,9 +71,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [isEgresadoAssignmentClicked, setIsEgresadoAssignmentClicked] =
     useState(false);
   const [assignmentData, setAssignmentData] = useState({
-    mentorId: "", // Suponiendo que necesitas seleccionar un mentor
-    mentorshipId: "", // Suponiendo que necesitas seleccionar una mentoría
+    mentorId: "",
+    mentorshipId: "",
   });
+
+  const showNotification = (message: string, type: "success" | "error") => {
+    setNotification({ message, type });
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+  };
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -74,75 +92,96 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData); // Muestra los datos en la consola
+    console.log(formData);
 
     try {
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="))
-        ?.split("=")[1]; // Obtén el token desde el localStorage
+        ?.split("=")[1];
 
       const response = await fetch("http://localhost:3030/api/mentorships", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
-      console.log(JSON.stringify(formData));
+
       const result = await response.json();
       if (response.ok) {
-        console.log("Mentoría creada:", result.data);
-        // Aquí puedes resetear el formulario o hacer otra acción
+        showNotification("Mentoría creada con éxito.", "success");
+        setIsMentorShipClicked(false);
+
+        setFormData({
+          title: "",
+          description: "",
+          status: "PENDIENTE",
+          student_spots: 20,
+          mentor_spots: 2,
+          start_date: "",
+          end_date: "",
+        });
       } else {
-        console.error("Error al crear la mentoría:", result);
+        showNotification("Error al crear la mentoría.", "error");
       }
     } catch (error) {
       console.error("Error en el envío de la mentoría:", error);
     }
   };
 
-  const handleAssignmentFormChange = (
-    e: any
-  ) => {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const handleAssignmentFormChange = (e: any) => {
     const { name, value } = e.target;
     setAssignmentData({ ...assignmentData, [name]: value });
   };
 
   const handleAssignmentFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(assignmentData); // Muestra los datos en la consola
+    console.log(assignmentData);
 
     try {
       const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="))
-        ?.split("=")[1]; // Obtén el token desde la cookie
+        ?.split("=")[1];
 
-      // La URL debe incluir mentorshipId, ya que es la mentoría a la que asignas el mentor
       const response = await fetch(
         `http://localhost:3030/api/mentorships/${assignmentData.mentorshipId}/users`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Incluye el token en la cabecera
+            Authorization: `Bearer ${token}`,
           },
-          // El userId debe estar en el cuerpo del POST
           body: JSON.stringify({ user_id: assignmentData.mentorId }),
         }
       );
 
       const result = await response.json();
       if (response.ok) {
-        console.log("Mentor asignado a la mentoría:", result.data);
-        // Aquí puedes resetear el formulario o hacer otra acción
+        const successMessage =
+          activeSection === "MENTORES"
+            ? "Mentor asignado con éxito."
+            : "Egresado asignado con éxito.";
+        showNotification(successMessage, "success");
+        setIsMentorAssignmentClicked(false);
+        setIsEgresadoAssignmentClicked(false);
       } else {
-        console.error("Error al asignar el mentor:", result);
+        const errorMessage =
+          activeSection === "MENTORES"
+            ? "Error al asignar el mentor."
+            : "Error al asignar el egresado.";
+        showNotification(errorMessage, "error");
       }
     } catch (error) {
-      console.error("Error en el envío de la asignación:", error);
+      console.error("Error en la asignación:", error);
+      setNotification(
+        activeSection === "MENTORES"
+          ? "Error en el envío de la asignación del mentor."
+          : "Error en el envío de la asignación del egresado."
+      );
     }
   };
 
@@ -271,6 +310,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           />
 
           <label htmlFor="description">Descripción</label>
+          {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
           <textarea
             name="description"
             value={formData.description}
@@ -362,8 +402,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           <label htmlFor="egresadoId">Seleccionar Egresado</label>
           <select
-            name="mentorId" // Cambia esto a egresadoId si es necesario
-            value={assignmentData.mentorId} // Cambia esto a egresadoId si es necesario
+            name="mentorId"
+            value={assignmentData.mentorId}
             onChange={handleAssignmentFormChange}
             required
           >
@@ -398,6 +438,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <h2 className="dashboard__manager__select__title">Gestionar</h2>
             <ul className="dashboard__manager__select__list">
               {availableSections.map((section) => (
+                // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
                 <li
                   key={section}
                   className={`dashboard__manager__select__item ${
@@ -427,6 +468,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               />
             </div>
             {activeSection === "MENTORIAS" && (
+              // biome-ignore lint/a11y/useButtonType: <explanation>
               <button
                 onClick={() => {
                   setIsMentorShipClicked(!ismentorShipClicked);
@@ -436,6 +478,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </button>
             )}
             {activeSection === "MENTORES" && (
+              // biome-ignore lint/a11y/useButtonType: <explanation>
               <button
                 onClick={() => {
                   setIsMentorAssignmentClicked(!isMentorAssignmentClicked);
@@ -445,6 +488,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </button>
             )}
             {activeSection === "EGRESADOS" && (
+              // biome-ignore lint/a11y/useButtonType: <explanation>
               <button
                 onClick={() => {
                   setIsEgresadoAssignmentClicked(!isEgresadoAssignmentClicked);
@@ -456,6 +500,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
           {renderTable()}
         </header>
+      </div>
+      <div className="notification-area">
+        {notification && (
+          <div className={`notification ${notification.type}`}>
+            {notification.message}
+          </div>
+        )}
       </div>
     </section>
   );

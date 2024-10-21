@@ -40,15 +40,16 @@ export const Home = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [mentorships, setMentorships] = useState<Mentorship[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const [loading, setLoading] = useState<any>(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeSection, setActiveSection] = useState<string>("EGRESADOS");
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const [activeSection, setActiveSection] = useState<any>("EGRESADOS");
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
-  // Credenciales para el inicio de sesión (puedes cambiar estos valores)
   const loginCredentials = {
-    email: "nuevo_gestor@empresa.com", // Reemplaza con el email real
-    password: "tu_contraseña_segura", // Reemplaza con la contraseña real
+    email: "nuevo_gestor@empresa.com",
+    password: "tu_contraseña_segura",
   };
 
   useEffect(() => {
@@ -65,10 +66,8 @@ export const Home = () => {
         const result = await response.json();
 
         if (response.ok) {
-          // Almacena el token en una cookie
           document.cookie = `token=${result.token}; path=/`;
 
-          // Establece el usuario actual con el rol
           setCurrentUser({
             id: result.user.id,
             first_name: result.user.first_name,
@@ -134,13 +133,13 @@ export const Home = () => {
         const token = document.cookie
           .split("; ")
           .find((row) => row.startsWith("token="))
-          ?.split("=")[1]; 
+          ?.split("=")[1];
 
         const responseFilteredUsers = await fetch(
           `http://localhost:3030/api/users?role=${roleMap[activeSection]}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -168,13 +167,17 @@ export const Home = () => {
     <>
       <Hero currentUser={currentUser} />
       <Dashboard
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         rol={currentUser?.role?.name as any}
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         users={filteredUsers as any}
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         mentorships={mentorships as any}
         error={error}
         activeSection={activeSection}
-        handleSectionChange={handleSectionChange} loading={false}/>
-
+        handleSectionChange={handleSectionChange}
+        loading={false}
+      />
     </>
   );
 };

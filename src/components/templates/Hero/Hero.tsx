@@ -1,7 +1,6 @@
 import Icon from "@assets/icons/icon";
 import "./Hero.css";
 
-// Definir la interfaz para las props
 interface HeroProps {
   currentUser: {
     first_name: string;
