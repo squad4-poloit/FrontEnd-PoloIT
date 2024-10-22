@@ -6,5 +6,5 @@ COPY . .
 RUN npm run build
 
 FROM node:20.16
-COPY --from=builder /app/dist ./
+COPY --from=builder /app ./
 ENTRYPOINT ["npm","run","host"]
