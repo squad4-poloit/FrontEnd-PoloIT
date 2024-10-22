@@ -100,14 +100,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
         .find((row) => row.startsWith("token="))
         ?.split("=")[1];
 
-      const response = await fetch("http://localhost:3030/api/mentorships", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://backend.squad4-poloit.xyz/api/mentorships",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const result = await response.json();
       if (response.ok) {
@@ -148,7 +151,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         ?.split("=")[1];
 
       const response = await fetch(
-        `http://localhost:3030/api/mentorships/${assignmentData.mentorshipId}/users`,
+        `https://backend.squad4-poloit.xyz/api/mentorships/${assignmentData.mentorshipId}/users`,
         {
           method: "POST",
           headers: {

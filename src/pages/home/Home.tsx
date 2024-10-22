@@ -48,20 +48,23 @@ export const Home = () => {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
   const loginCredentials = {
-    email: "nuevo_gestor@empresa.com",
-    password: "tu_contraseña_segura",
+    email: "usuario@gestor.com",
+    password: "12345678",
   };
 
   useEffect(() => {
     const loginUser = async () => {
       try {
-        const response = await fetch("http://localhost:3030/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(loginCredentials),
-        });
+        const response = await fetch(
+          "https://backend.squad4-poloit.xyz/api/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginCredentials),
+          }
+        );
 
         const result = await response.json();
 
@@ -99,7 +102,7 @@ export const Home = () => {
           ?.split("=")[1];
 
         const responseMentorships = await fetch(
-          "http://localhost:3030/api/mentorships",
+          "https://backend.squad4-poloit.xyz/api/mentorships",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -136,7 +139,7 @@ export const Home = () => {
           ?.split("=")[1];
 
         const responseFilteredUsers = await fetch(
-          `http://localhost:3030/api/users?role=${roleMap[activeSection]}`,
+          `https://backend.squad4-poloit.xyz/api/users?role=${roleMap[activeSection]}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

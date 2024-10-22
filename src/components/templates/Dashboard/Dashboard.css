@@ -73,12 +73,13 @@
   min-width: 500px;
   display: flex;
   flex-direction: column;
+  z-index: 40;
   transition: 0.5s;
-  background-color: #f6f9fc; /* Mismo fondo claro que el dashboard */
+  background-color: #f6f9fc;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra similar a la tabla */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  border: 1px solid #e6ebf1; /* Borde similar a las tablas */
+  border: 1px solid #e6ebf1;
 }
 
 .mentorship-form.open {
@@ -87,7 +88,7 @@
 
 .mentorship-form h2 {
   font-size: 24px;
-  color: #32325d; /* Texto oscuro */
+  color: #32325d;
   margin-bottom: 20px;
 }
 
@@ -103,14 +104,14 @@
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 4px;
-  border: 1px solid #e6ebf1; /* Borde claro */
-  background-color: #fff; /* Fondo blanco */
+  border: 1px solid #e6ebf1;
+  background-color: #fff;
   color: #32325d;
   font-size: 16px;
 }
 
 .mentorship-form button[type="submit"] {
-  background-color: #635bff; /* Azul primario de Stripe */
+  background-color: #635bff;
   color: #fff;
   padding: 10px;
   border: none;
@@ -121,7 +122,7 @@
 }
 
 .mentorship-form button[type="submit"]:hover {
-  background-color: #5145d6; /* Color más oscuro para el hover */
+  background-color: #5145d6;
 }
 
 .dashboard__table__search {
@@ -181,41 +182,40 @@
 }
 
 .table thead {
-  background-color: #635bff; /* Azul primario de Stripe */
+  background-color: #635bff;
 }
 
 .table-header {
   padding: 3px;
-  background-color: #635bff; /* Azul primario de Stripe */
+  background-color: #635bff;
   color: white;
   text-align: center;
   font-weight: bold;
 }
 
 .table-row:nth-child(even) {
-  background-color: #f6f9fc; /* Fondo claro alternativo */
+  background-color: #f6f9fc;
 }
 
 .table-row:nth-child(odd) {
-  background-color: #ffffff; /* Fondo blanco para filas impares */
+  background-color: #ffffff;
 }
 
 .table-row:hover {
-  background-color: #e6ebf1; /* Color de hover similar a Stripe */
+  background-color: #e6ebf1;
 }
 
 .table-data {
   padding: 8px;
-  border-bottom: 1px solid #e6ebf1; /* Color de borde */
+  border-bottom: 1px solid #e6ebf1;
   text-align: center;
-  color: #32325d; /* Texto oscuro */
+  color: #32325d;
 }
 
 .table-row {
   transition: background-color 0.3s ease;
 }
 
-/* Adaptar los bordes laterales */
 .table-data:first-child {
   border-left: 1px solid #e6ebf1;
 }
@@ -252,9 +252,9 @@
   display: flex;
   flex-direction: column;
   transition: 0.5s;
-  background-color: #f6f9fc; /* Mismo fondo claro que el dashboard */
+  background-color: #f6f9fc;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra similar a la tabla */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   border: 1px solid #e6ebf1;
 }
@@ -281,9 +281,9 @@
   display: flex;
   flex-direction: column;
   transition: 0.5s;
-  background-color: #f6f9fc; /* Mismo fondo claro que el dashboard */
+  background-color: #f6f9fc;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra similar a la tabla */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   border: 1px solid #e6ebf1;
 }
@@ -300,7 +300,6 @@
   z-index: 29;
 }
 
-/* Estilos generales para los formularios de asignar egresados y mentores */
 .assignment-form {
   position: absolute;
   right: -100%;
@@ -308,21 +307,21 @@
   display: flex;
   flex-direction: column;
   transition: 0.5s;
-  background-color: #f6f9fc; /* Mismo fondo claro que el dashboard */
+  background-color: #f6f9fc;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra similar a la tabla */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  border: 1px solid #e6ebf1; /* Borde claro */
+  border: 1px solid #e6ebf1;
 }
 
 .assignment-form.open {
-  right: 263px; /* Ajusta la posición al abrir */
-  z-index: 29; /* Asegura que esté por encima de otros elementos */
+  right: 263px;
+  z-index: 29;
 }
 
 .assignment-form h2 {
   font-size: 24px;
-  color: #32325d; /* Texto oscuro */
+  color: #32325d;
   margin-bottom: 20px;
 }
 
@@ -338,14 +337,14 @@
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 4px;
-  border: 1px solid #e6ebf1; /* Borde claro */
-  background-color: #fff; /* Fondo blanco */
+  border: 1px solid #e6ebf1;
+  background-color: #fff;
   color: #32325d;
   font-size: 16px;
 }
 
 .assignment-form button[type="submit"] {
-  background-color: #635bff; /* Azul primario */
+  background-color: #635bff;
   color: #fff;
   padding: 10px;
   border: none;
@@ -356,7 +355,7 @@
 }
 
 .assignment-form button[type="submit"]:hover {
-  background-color: #5145d6; /* Color más oscuro para el hover */
+  background-color: #5145d6;
 }
 
 .notification-area {
@@ -378,9 +377,9 @@
 }
 
 .notification.success {
-  background-color: #4caf50; /* Verde para éxito */
+  background-color: #4caf50;
 }
 
 .notification.error {
-  background-color: #f44336; /* Rojo para error */
+  background-color: #f44336;
 }
