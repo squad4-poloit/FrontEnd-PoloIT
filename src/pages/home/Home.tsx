@@ -103,6 +103,7 @@ export const Home = () => {
 
         const responseMentorships = await fetch(
           "https://backend.squad4-poloit.xyz/api/mentorships",
+          "https://backend.squad4-poloit.xyz/api/mentorships",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -139,6 +140,7 @@ export const Home = () => {
           ?.split("=")[1];
 
         const responseFilteredUsers = await fetch(
+          `https://backend.squad4-poloit.xyz/api/users?role=${roleMap[activeSection]}`,
           `https://backend.squad4-poloit.xyz/api/users?role=${roleMap[activeSection]}`,
           {
             headers: {

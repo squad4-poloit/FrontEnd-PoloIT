@@ -1,10 +1,9 @@
 FROM node:20.16 AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN yarn install
-ENV PATH /app/node_modules/.bin:$PATH
+RUN npm install
 COPY . .
-RUN yarn run build
+RUN npm run build
 
 FROM nginx:1.25.4-alpine3.18
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
